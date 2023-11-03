@@ -53,7 +53,7 @@ export const skillSlice = createSlice({
           state.loading = false;
           state.skills = [...state.skills, ...payload.data];
           state.total = payload.pagination.total;
-          state.next = payload.pagination.next;
+          state.next = payload.pagination?.next;
         }
       )
       .addCase(getSkills.rejected, (state) => {
