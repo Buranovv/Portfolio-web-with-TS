@@ -2,66 +2,66 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { LIMIT } from "../../constants";
 import request from "../../server/request";
-import Skill from "../../types/skill";
+import Education from "../../types/education";
 
 interface InitialStateTypes {
-  skills: Skill[];
+  educations: Education[];
   loading: boolean;
   total: number;
   next: number;
   page: number;
 }
 
-interface SkillsData {
+interface EducationsData {
   pagination: {
     total: number;
     next: number;
   };
-  data: Skill[];
+  data: Education[];
 }
 
 const initialState: InitialStateTypes = {
-  skills: [],
+  educations: [],
   loading: false,
   total: 0,
   next: 0,
   page: 1,
 };
 
-export const getSkills = createAsyncThunk(
-  "skills/fetching",
+export const getEducations = createAsyncThunk(
+  "educations/fetching",
   async ({ search, page }: { search: string; page: number }) => {
-    const { data } = await request.get<SkillsData>("skills", {
+    const { data } = await request.get<EducationsData>("education", {
       params: { page, limit: LIMIT, search },
     });
     return data;
   }
 );
 
-export const skillSlice = createSlice({
+export const educationSlice = createSlice({
   initialState,
-  name: "skill",
+  name: "education",
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getSkills.pending, (state) => {
+      .addCase(getEducations.pending, (state) => {
         state.loading = true;
       })
       .addCase(
-        getSkills.fulfilled,
-        (state, { payload }: PayloadAction<SkillsData>) => {
+        getEducations.fulfilled,
+        (state, { payload }: PayloadAction<EducationsData>) => {
           state.loading = false;
-          state.skills = [...state.skills, ...payload.data];
+          state.educations = [...state.educations, ...payload.data];
           state.total = payload.pagination.total;
           state.next = payload.pagination.next;
         }
       )
-      .addCase(getSkills.rejected, (state) => {
+      .addCase(getEducations.rejected, (state) => {
         state.loading = false;
       });
   },
 });
 
-const { reducer: skillReducer, name: skillName } = skillSlice;
+const { reducer: educationReducer, name: educationName } = educationSlice;
 
-export { skillReducer as default, skillName };
+export { educationReducer as default, educationName };
