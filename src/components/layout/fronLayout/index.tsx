@@ -38,16 +38,6 @@ const Header = () => {
                     Home
                   </NavLink>
                 </li>
-                {/* <li className="header__item">
-                  <NavLink className="header__link" to="/blog">
-                    Blog
-                  </NavLink>
-                </li>
-                <li className="header__item">
-                  <NavLink className="header__link" to="/aboutUs">
-                    About us
-                  </NavLink>
-                </li> */}
                 <li className="header__item">
                   {isAuth ? (
                     <Fragment>
@@ -95,7 +85,7 @@ const Header = () => {
         </div>
       </header>
 
-      <div className={togle ? "shadow" : ""}></div>
+      <div className={togle ? "shadow" : ""} onClick={togleClose}></div>
 
       <div className={`togle ${togle ? "show" : ""}`}>
         <div className="togle__list">
@@ -119,12 +109,32 @@ const Header = () => {
           <NavLink className="togle__link" to="/" onClick={togleClose}>
             Home
           </NavLink>
-          {/* <NavLink className="togle__link" to="/blog" onClick={togleClose}>
-            Blog
-          </NavLink>
-          <NavLink className="togle__link" to="/aboutUs" onClick={togleClose}>
-            About us
-          </NavLink> */}
+          {isAuth ? (
+            <Fragment>
+              <NavLink
+                className="togle__link"
+                to="/skillsPage"
+                onClick={togleClose}
+              >
+                Skills
+              </NavLink>
+              <NavLink
+                className="togle__link"
+                to="/educationPage"
+                onClick={togleClose}
+              >
+                Education
+              </NavLink>
+            </Fragment>
+          ) : (
+            <NavLink
+              className="togle__link"
+              to="/register"
+              onClick={togleClose}
+            >
+              Register
+            </NavLink>
+          )}
           {isAuth ? (
             <NavLink
               className="togle__link"
@@ -138,10 +148,10 @@ const Header = () => {
             <NavLink
               className="togle__link"
               style={{ backgroundColor: "var(lyt-txt-clr)" }}
-              to="/loginRegister"
+              to="/login"
               onClick={togleClose}
             >
-              Login/Register
+              Login
             </NavLink>
           )}
         </div>
