@@ -25,7 +25,7 @@ const Header = () => {
         <div className="container">
           <div className="header__box">
             {isAuth === true && user === "client" ? (
-              <NavLink to="/clientPortfolios" className="header__link">
+              <NavLink to="/myPortfolios" className="header__link">
                 My portfolios
               </NavLink>
             ) : (
