@@ -37,9 +37,9 @@ const LoginPage = () => {
       Cookies.set(TOKEN, token);
       localStorage.setItem(USER, JSON.stringify(role));
       if (role === "client") {
-        navigate("/myPortfolios");
+        navigate("/educationPage");
       } else if (role === "user") {
-        navigate("/");
+        navigate("/waitPage");
       } else {
         navigate("/dashboard");
       }

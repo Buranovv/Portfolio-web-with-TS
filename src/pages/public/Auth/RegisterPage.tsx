@@ -38,7 +38,7 @@ const RegisterPage = () => {
       setUser(role);
       Cookies.set(TOKEN, token);
       localStorage.setItem(USER, JSON.stringify(role));
-      navigate("/");
+      navigate("/waitPage");
       message.success("Successfully logged in");
     } catch (error) {
       message.error("Error");

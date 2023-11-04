@@ -1,21 +1,24 @@
 import { useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 
-import { Button, Layout, Menu, theme } from "antd";
+import { Button, Layout, Menu, Modal, theme } from "antd";
 
 import {
   // DashboardOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  // TeamOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
-// import { TOKEN } from "../../const";
-const { Header, Sider, Content } = Layout;
-import "./adminLayout.scss";
 
-const AdminLayout = () => {
-  // const navigate = useNavigate();
+import { TOKEN, USER } from "../../constants";
+const { Header, Sider, Content } = Layout;
+import Cookies from "js-cookie";
+
+import "./clientLayout.scss";
+
+const ClientLayout = () => {
+  const navigate = useNavigate();
   const location = useLocation();
 
   const [collapsed, setCollapsed] = useState(false);
@@ -23,15 +26,16 @@ const AdminLayout = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  // const logout = () => {
-  //   Modal.confirm({
-  //     title: "Do you want to exit",
-  //     onOk: () => {
-  //       navigate("/login");
-  //       localStorage.removeItem(TOKEN);
-  //     },
-  //   });
-  // };
+  const logout = () => {
+    Modal.confirm({
+      title: "Do you want to exit",
+      onOk: () => {
+        navigate("/login");
+        localStorage.removeItem(USER);
+        Cookies.remove(TOKEN);
+      },
+    });
+  };
 
   return (
     <Layout style={{ height: "100vh" }}>
@@ -47,21 +51,21 @@ const AdminLayout = () => {
             //   icon: <DashboardOutlined />,
             //   label: <Link to="/dashboard">Dashboard</Link>,
             // },
-            // {
-            //   key: "/category",
-            //   icon: <TeamOutlined />,
-            //   label: <Link to="/category">Categories</Link>,
-            // },
-            // {
-            //   key: "/product",
-            //   icon: <TeamOutlined />,
-            //   label: <Link to="/product">Products</Link>,
-            // },
+            {
+              key: "educationPage",
+              icon: <TeamOutlined />,
+              label: <Link to="educationPage">Categories</Link>,
+            },
+            {
+              key: "/skillsPage",
+              icon: <TeamOutlined />,
+              label: <Link to="/skillsPage">Products</Link>,
+            },
             {
               key: "4",
               icon: <LogoutOutlined />,
               label: "Logout",
-              // onClick: logout,
+              onClick: logout,
             },
           ]}
         />
@@ -100,4 +104,4 @@ const AdminLayout = () => {
   );
 };
 
-export default AdminLayout;
+export default ClientLayout;
