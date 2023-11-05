@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { LIMIT } from "../../constants";
 import request from "../../server/request";
-import Skill from "../../types/skill";
+import Skill from "../../types/universalData";
 
 interface InitialStateTypes {
   skills: Skill[];

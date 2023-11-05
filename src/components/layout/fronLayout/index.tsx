@@ -1,14 +1,14 @@
-import { Fragment, useContext, useState } from "react";
+import { Fragment, useState } from "react";
 import { NavLink } from "react-router-dom";
 
-import { AuthContext } from "../../../context/Auth";
+import useAuth from "../../../zustand/auth";
 
 import "./header.scss";
 
 const Header = () => {
   const [togle, setTogle] = useState(false);
 
-  const { isAuth, user } = useContext(AuthContext);
+  const { isAuth } = useAuth();
 
   const togleOpen = () => {
     setTogle(true);
@@ -24,13 +24,7 @@ const Header = () => {
       <header className="header">
         <div className="container">
           <div className="header__box">
-            {isAuth === true && user === "client" ? (
-              <NavLink to="/myPortfolios" className="header__link">
-                My portfolios
-              </NavLink>
-            ) : (
-              <NavLink to="/">Salom</NavLink>
-            )}
+            <NavLink to="/">Salom</NavLink>
             <nav className="header__nav">
               <ul className="header__list">
                 <li className="header__item">
@@ -48,11 +42,7 @@ const Header = () => {
                         Education
                       </NavLink>
                     </Fragment>
-                  ) : (
-                    <NavLink className="header__link" to="/register">
-                      Register
-                    </NavLink>
-                  )}
+                  ) : null}
                 </li>
               </ul>
               <div>
@@ -61,7 +51,7 @@ const Header = () => {
                     Account
                   </NavLink>
                 ) : (
-                  <NavLink to="/login" className="header__loginPage">
+                  <NavLink to="/auth/login" className="header__loginPage">
                     Login
                   </NavLink>
                 )}
@@ -126,15 +116,7 @@ const Header = () => {
                 Education
               </NavLink>
             </Fragment>
-          ) : (
-            <NavLink
-              className="togle__link"
-              to="/register"
-              onClick={togleClose}
-            >
-              Register
-            </NavLink>
-          )}
+          ) : null}
           {isAuth ? (
             <NavLink
               className="togle__link"
@@ -148,7 +130,7 @@ const Header = () => {
             <NavLink
               className="togle__link"
               style={{ backgroundColor: "var(lyt-txt-clr)" }}
-              to="/login"
+              to="/auth/login"
               onClick={togleClose}
             >
               Login

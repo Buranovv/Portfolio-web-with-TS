@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import { Card } from "antd";
 
-import Skill from "../../../types/skill";
+import Skill from "../../../types/universalData";
 
 const SkillCard = ({ _id, percent, name, user }: Skill) => {
   return (
