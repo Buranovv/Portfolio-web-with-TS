@@ -2,10 +2,10 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { LIMIT } from "../../constants";
 import request from "../../server/request";
-import Skill from "../../types/universalData";
+import UniversalData from './../../types/universalData';
 
 interface InitialStateTypes {
-  skills: Skill[];
+  skills: UniversalData[];
   loading: boolean;
   total: number;
   next: number;
@@ -17,7 +17,7 @@ interface SkillsData {
     total: number;
     next: number;
   };
-  data: Skill[];
+  data: UniversalData[];
 }
 
 const initialState: InitialStateTypes = {

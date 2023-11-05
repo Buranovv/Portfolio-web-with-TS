@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import { Col, Flex, Row, Spin } from "antd";
+import { Flex, Spin } from "antd";
 import Search from "antd/es/input/Search";
 
-import EducationCard from "../../../components/card/educationCard";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { educationName, getEducations } from "../../../redux/slice/education";
 
@@ -52,7 +51,7 @@ const EducationPage = () => {
               </p>
             }
           >
-            <Row gutter={16} wrap={true} style={{ marginTop: "30px" }}>
+            {/* <Row gutter={16} wrap={true} style={{ marginTop: "30px" }}>
               {educations.map((education, i) => (
                 <Col
                   className="gutter-row"
@@ -65,7 +64,7 @@ const EducationPage = () => {
                   <EducationCard {...education} />
                 </Col>
               ))}
-            </Row>
+            </Row> */}
           </InfiniteScroll>
         </div>
       </Spin>

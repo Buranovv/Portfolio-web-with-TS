@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import { Col, Flex, Row, Spin } from "antd";
+import { Flex,  Spin } from "antd";
 import Search from "antd/es/input/Search";
 
-import SkillCard from "../../../components/card/skillCard/SkillCard";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { getSkills, skillName } from "../../../redux/slice/skills";
 
@@ -52,7 +51,7 @@ const SkillsPage = () => {
               </p>
             }
           >
-            <Row gutter={16} wrap={true} style={{ marginTop: "30px" }}>
+            {/* <Row gutter={16} wrap={true} style={{ marginTop: "30px" }}>
               {skills.map((skill, i) => (
                 <Col
                   className="gutter-row"
@@ -65,7 +64,7 @@ const SkillsPage = () => {
                   <SkillCard {...skill} />
                 </Col>
               ))}
-            </Row>
+            </Row> */}
           </InfiniteScroll>
         </div>
       </Spin>

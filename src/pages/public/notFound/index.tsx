@@ -4,12 +4,12 @@ import { Button, Result } from "antd";
 
 import PropTypes from "prop-types";
 
-import useAuth from "./../../../zustand/auth";
+import useAuth from "../../../zustand/auth";
 
 const NotFoundPage = () => {
   const navigate = useNavigate();
 
-  const { isAuth, role } = useAuth;
+  const { isAuth, role } = useAuth();
 
   return (
     <div>
