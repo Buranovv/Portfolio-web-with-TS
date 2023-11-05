@@ -39,7 +39,10 @@ const crud = <T>(url: string) => {
       allData: [],
       loading: false,
       photoLoad: false,
-      photo: {},
+      photo: {
+        _id: "",
+        name: "",
+      },
       page: 1,
       total: 0,
       selected: null,
