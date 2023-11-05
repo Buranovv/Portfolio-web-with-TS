@@ -81,7 +81,10 @@ const PortfolioPage = () => {
 
   const choosePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = new FormData();
-    file.append("file", e.target.files[0]);
+    file.append(
+      "file",
+      e.target.files instanceof FileList ? e.target.files[0] : ""
+    );
     uploadPhoto(file);
   };
 
