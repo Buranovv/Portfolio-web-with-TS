@@ -12,6 +12,7 @@ import {
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 
 import { getUserPhoto } from "../../utils";
@@ -132,7 +133,7 @@ const ClientLayout = () => {
               <Link to="/account">
                 <Avatar
                   className="avatar"
-                  src={getUserPhoto(photo)}
+                  src={photo ? getUserPhoto(photo) : <UserOutlined />}
                   size={"large"}
                 />
               </Link>
@@ -153,7 +154,5 @@ const ClientLayout = () => {
     </Layout>
   );
 };
-
-
 
 export default ClientLayout;
