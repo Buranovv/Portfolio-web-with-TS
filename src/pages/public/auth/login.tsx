@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
+import Loader2 from "../../../components/shared/loader/Loader2";
 import Universal from "../../../types/universal";
 import useAuth from "../../../zustand/auth";
 
@@ -21,7 +22,7 @@ const LoginPage = () => {
     mode: "onTouched",
   });
 
-  const { login } = useAuth();
+  const { login, loading } = useAuth();
 
   const submit = (values: object) => {
     login(values, navigate);
@@ -29,6 +30,7 @@ const LoginPage = () => {
 
   return (
     <Fragment>
+      {loading ? <Loader2 /> : null}
       <div className="loginRegister-body">
         <div className="forBg"></div>
         <div className="form_block">
@@ -45,7 +47,7 @@ const LoginPage = () => {
                 })}
                 required={true}
                 style={{
-                  border: `solid ${errors.username ? "red" : "#009ee2"}`,
+                  border: `solid ${errors.username ? "red" : "#889195"}`,
                 }}
                 className="usernameInput"
               />
@@ -65,7 +67,7 @@ const LoginPage = () => {
                   fillRule="evenodd"
                   clipRule="evenodd"
                   d="M3.78968 1.51114C3.25848 1.51114 2.82822 1.95623 2.82822 2.50576C2.82822 3.05528 3.25848 3.50038 3.78968 3.50038C4.32089 3.50038 4.75115 3.05528 4.75115 2.50576C4.75115 1.95623 4.32089 1.51114 3.78968 1.51114ZM4.27042 2.50576C4.27042 2.23224 4.05409 2.00845 3.78968 2.00845C3.52528 2.00845 3.30895 2.23224 3.30895 2.50576C3.30895 2.77928 3.52528 3.00307 3.78968 3.00307C4.05409 3.00307 4.27042 2.77928 4.27042 2.50576ZM5.23188 4.99231C5.18381 4.81576 4.43868 4.495 3.78969 4.495C3.1431 4.495 2.40277 4.81328 2.34749 4.99231H5.23188ZM1.86674 4.9923C1.86674 4.33088 3.1479 3.99768 3.78967 3.99768C4.43145 3.99768 5.7126 4.33088 5.7126 4.9923V5.48961H1.86674V4.9923Z"
-                  fill="#009ee2"
+                  fill="#889195"
                 />
               </svg>
             </div>
@@ -80,7 +82,7 @@ const LoginPage = () => {
                   },
                 })}
                 style={{
-                  border: `solid ${errors.password ? "red" : "#009ee2"}`,
+                  border: `solid ${errors.password ? "red" : "#889195"}`,
                 }}
                 required={true}
                 className="passwordInput"

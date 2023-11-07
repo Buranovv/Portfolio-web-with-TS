@@ -7,6 +7,7 @@ interface UniversalData {
   name: string;
   user: Universal;
   level: string;
+  role: string;
   description: string;
   photo: PhotoData;
   startDate: string;

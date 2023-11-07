@@ -36,7 +36,7 @@ select {
   outline: none;
 }
 :root {
-  --lyt-bgclr: #232536;
+  --lyt-bgclr: #889195;
   --login-btn-bgclr: #ffffff;
   --ctrl-btns-clr: #ffd050;
   --lyt-txt-clr: #ffffff;
@@ -64,7 +64,7 @@ select {
     padding: 0 35px;
   }
   .userMain {
-    margin-top: 47px;
+    margin-top: 60.4px;
   }
 }
 

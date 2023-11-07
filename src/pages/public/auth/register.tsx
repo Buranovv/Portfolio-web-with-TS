@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
+import Loader2 from "../../../components/shared/loader/Loader2";
 import Universal from "../../../types/universal";
 import useAuth from "../../../zustand/auth";
 
@@ -24,7 +25,7 @@ const RegisterPage = () => {
     mode: "onTouched",
   });
 
-  const { signUp } = useAuth();
+  const { signUp, loading } = useAuth();
 
   const submit = async (values: object) => {
     signUp(values, navigate);
@@ -34,6 +35,7 @@ const RegisterPage = () => {
 
   return (
     <Fragment>
+      {loading ? <Loader2 /> : null}
       <div className="loginRegister-body">
         <div className="forBg"></div>
         <div className="form_block">
@@ -49,7 +51,7 @@ const RegisterPage = () => {
                   required: "This field must not be empty!",
                 })}
                 style={{
-                  border: `solid ${errors.firstName ? "red" : "#009ee2"}`,
+                  border: `solid ${errors.firstName ? "red" : "#889195"}`,
                 }}
                 required={true}
                 className="firstNameInput"
@@ -66,7 +68,7 @@ const RegisterPage = () => {
                   required: "This field must not be empty!",
                 })}
                 style={{
-                  border: `solid ${errors.lastName ? "red" : "#009ee2"}`,
+                  border: `solid ${errors.lastName ? "red" : "#889195"}`,
                 }}
                 required={true}
                 className="lastNameInput"
@@ -83,7 +85,7 @@ const RegisterPage = () => {
                   required: "This field must not be empty!",
                 })}
                 style={{
-                  border: `solid ${errors.username ? "red" : "#009ee2"}`,
+                  border: `solid ${errors.username ? "red" : "#889195"}`,
                 }}
                 required={true}
                 className="usernameInput"
@@ -104,7 +106,7 @@ const RegisterPage = () => {
                   },
                 })}
                 style={{
-                  border: `solid ${errors.password ? "red" : "#009ee2"}`,
+                  border: `solid ${errors.password ? "red" : "#889195"}`,
                 }}
                 required={true}
                 className="passwordInput"
@@ -137,7 +139,7 @@ const RegisterPage = () => {
                     value === password || "The passwords do not match!",
                 })}
                 style={{
-                  border: `solid ${errors.confirmPassword ? "red" : "#009ee2"}`,
+                  border: `solid ${errors.confirmPassword ? "red" : "#889195"}`,
                 }}
                 required={true}
                 className="confirmPasswordInput"

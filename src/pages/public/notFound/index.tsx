@@ -2,8 +2,6 @@ import { useNavigate } from "react-router-dom";
 
 import { Button, Result } from "antd";
 
-import PropTypes from "prop-types";
-
 import useAuth from "../../../zustand/auth";
 
 const NotFoundPage = () => {
@@ -22,24 +20,20 @@ const NotFoundPage = () => {
             type="primary"
             onClick={() =>
               navigate(
-                isAuth
-                  ? role !== "admin"
-                    ? "/"
-                    : "/dashboard"
-                  : "/loginRegister"
+                isAuth && (role === "admin" || role === "client")
+                  ? "/dashboard"
+                  : "/"
               )
             }
           >
-            Back {isAuth ? (role !== "admin" ? "Main" : "Dashboard") : "Login"}
+            Back{" "}
+            {isAuth &&
+              (role === "admin" || role === "client" ? "Dashboard" : "Main")}
           </Button>
         }
       />
     </div>
   );
-};
-
-NotFoundPage.propTypes = {
-  isLogin: PropTypes.bool,
 };
 
 export default NotFoundPage;

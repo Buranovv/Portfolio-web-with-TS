@@ -1,11 +1,10 @@
 import { Fragment, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import {
   Button,
   Flex,
   Form,
-  Image,
   Input,
   Modal,
   Pagination,
@@ -17,19 +16,20 @@ import Search from "antd/es/input/Search";
 import {
   DeleteOutlined,
   EditOutlined,
-  LoadingOutlined,
-  PlusOutlined,
   SaveOutlined,
   UserAddOutlined,
 } from "@ant-design/icons";
 
 import { LIMIT } from "../../../constants";
-import PhotoData from "../../../types/photo";
-import { getPhoto } from "../../../utils";
-import usePortfolio from "../../../zustand/portfolio";
+import Universal from "../../../types/universal";
+import useAuth from "../../../zustand/auth";
+import useExperience from "../../../zustand/experience";
 
-const PortfolioPage = () => {
+const ExperiencesPage = () => {
   const [form] = Form.useForm();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const pathname = location.pathname;
 
   const {
     allData,
@@ -37,9 +37,6 @@ const PortfolioPage = () => {
     page,
     total,
     selected,
-    photo,
-    photoLoad,
-    uploadPhoto,
     search,
     isModalOpen,
     isModalLoad,
@@ -52,19 +49,21 @@ const PortfolioPage = () => {
     deleteData,
     handleSearch,
     setPage,
-  } = usePortfolio();
+  } = useExperience();
+  const { clientID } = useAuth();
 
   useEffect(() => {
-    getAllData(search, page);
-  }, [getAllData, search, page]);
+    getAllData(search, page, clientID);
+  }, [getAllData, search, page, clientID]);
 
   const handleOk = async () => {
     const values = await form.validateFields();
-    values.photo = photo?._id;
+    values.startDate = new Date(values.startDate).toISOString();
+    values.endDate = new Date(values.endDate).toISOString();
     if (selected === null) {
-      addData(values);
+      addData(values, clientID);
     } else {
-      updateData(values, selected);
+      updateData(values, selected, clientID);
     }
   };
 
@@ -74,48 +73,34 @@ const PortfolioPage = () => {
     Modal.confirm({
       title: "Do you want to delete?",
       onOk: async () => {
-        deleteData(id);
+        deleteData(id, clientID);
       },
     });
   };
 
-  const choosePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = new FormData();
-    file.append(
-      "file",
-      e.target.files instanceof FileList ? e.target.files[0] : ""
-    );
-    uploadPhoto(file);
-  };
-
   const columns = [
     {
-      title: "Photo",
-      dataIndex: "photo",
-      key: "photo",
-      render: (photo: PhotoData) => (
-        <Image style={{ width: "50px" }} src={getPhoto(photo)} />
-      ),
+      title: "Work name",
+      dataIndex: "workName",
+      key: "workName",
     },
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Web-site",
-      dataIndex: "url",
-      key: "project",
-      render: (url: string) => (
-        <Link target="_blank" to={url}>
-          project
-        </Link>
-      ),
+      title: "Company nam",
+      dataIndex: "companyName",
+      key: "companyName",
     },
     {
       title: "Description",
       dataIndex: "description",
       key: "description",
+      render: (data: string) => <p>{data.slice(0, 30)}</p>,
+    },
+    {
+      title: "User",
+      dataIndex: "user",
+      key: "user",
+      render: (user: Universal) =>
+        `${user?.firstName ?? ""} ${user?.lastName ?? ""}`,
     },
     {
       title: "Action",
@@ -150,9 +135,9 @@ const PortfolioPage = () => {
         }}
         title={() => (
           <Flex align="center" justify="space-between">
-            <h2>Portfolios ({total})</h2>
+            <h2>Experiences ({total})</h2>
             <Form
-              name="portfolioSearch"
+              name="experienceSearch"
               wrapperCol={{
                 span: 24,
               }}
@@ -163,7 +148,8 @@ const PortfolioPage = () => {
             >
               <Space.Compact style={{ width: "100%" }}>
                 <Search
-                  onChange={(e) => handleSearch(e)}
+                  value={search}
+                  onChange={(e) => handleSearch(e, pathname, navigate)}
                   placeholder="search..."
                   allowClear
                 />
@@ -174,7 +160,7 @@ const PortfolioPage = () => {
               onClick={() => showModal(form)}
               icon={<UserAddOutlined />}
             >
-              Add portfolio
+              Add experiences
             </Button>
           </Flex>
         )}
@@ -188,11 +174,11 @@ const PortfolioPage = () => {
           total={total}
           pageSize={LIMIT}
           current={page}
-          onChange={(page) => setPage(page)}
+          onChange={(page) => setPage(page, pathname, navigate)}
         />
       ) : null}
       <Modal
-        title="Portfolio data"
+        title="Experience data"
         okText={selected === null ? "Add" : "Save"}
         okButtonProps={{
           icon: selected === null ? <UserAddOutlined /> : <SaveOutlined />,
@@ -204,7 +190,7 @@ const PortfolioPage = () => {
         confirmLoading={isModalLoad}
       >
         <Form
-          name="portfolio"
+          name="experience"
           labelCol={{
             span: 24,
           }}
@@ -214,64 +200,9 @@ const PortfolioPage = () => {
           autoComplete="off"
           form={form}
         >
-          <Form.Item name="photo">
-            <div
-              className="img-box"
-              style={{
-                width: "100%",
-                height: "250px",
-                border: "1px dashed black",
-              }}
-            >
-              <label
-                htmlFor="photo"
-                style={{
-                  width: "100%",
-                  height: "250px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {photoLoad ? (
-                  <LoadingOutlined />
-                ) : photo ? (
-                  <img
-                    src={getPhoto(photo)}
-                    alt="avatar"
-                    style={{
-                      width: "100%",
-                      height: "200px",
-                      objectFit: "contain",
-                    }}
-                  />
-                ) : (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <PlusOutlined />
-                    <div>upload</div>
-                  </div>
-                )}
-              </label>
-              <input
-                type="file"
-                name="photo"
-                id="photo"
-                style={{ display: "none" }}
-                onChange={(e) => choosePhoto(e)}
-              />
-            </div>
-          </Form.Item>
-
           <Form.Item
-            label="Name"
-            name="name"
+            label="Work name"
+            name="workName"
             rules={[
               {
                 required: true,
@@ -283,8 +214,8 @@ const PortfolioPage = () => {
           </Form.Item>
 
           <Form.Item
-            label="Url"
-            name="url"
+            label="Company name"
+            name="companyName"
             rules={[
               {
                 required: true,
@@ -307,10 +238,36 @@ const PortfolioPage = () => {
           >
             <Input />
           </Form.Item>
+
+          <Form.Item
+            label="Start date"
+            name="startDate"
+            rules={[
+              {
+                required: true,
+                message: "Please fill this field!",
+              },
+            ]}
+          >
+            <Input type="date" />
+          </Form.Item>
+
+          <Form.Item
+            label="End date"
+            name="endDate"
+            rules={[
+              {
+                required: true,
+                message: "Please fill this field!",
+              },
+            ]}
+          >
+            <Input type="date" />
+          </Form.Item>
         </Form>
       </Modal>
     </Fragment>
   );
 };
 
-export default PortfolioPage;
+export default ExperiencesPage;

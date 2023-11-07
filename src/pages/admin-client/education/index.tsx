@@ -1,4 +1,5 @@
 import { Fragment, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import {
   Button,
@@ -22,10 +23,14 @@ import {
 
 import { LIMIT } from "../../../constants";
 import Universal from "../../../types/universal";
+import useAuth from "../../../zustand/auth";
 import useEducation from "../../../zustand/education";
 
 const EducationPage = () => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const pathname = location.pathname;
 
   const {
     allData,
@@ -46,19 +51,20 @@ const EducationPage = () => {
     handleSearch,
     setPage,
   } = useEducation();
+  const { clientID } = useAuth();
 
   useEffect(() => {
-    getAllData(search, page);
-  }, [getAllData, search, page]);
+    getAllData(search, page, clientID);
+  }, [getAllData, search, page, clientID]);
 
   const handleOk = async () => {
     const values = await form.validateFields();
     values.startDate = new Date(values.startDate).toISOString();
     values.endDate = new Date(values.endDate).toISOString();
     if (selected === null) {
-      addData(values);
+      addData(values, clientID);
     } else {
-      updateData(values, selected);
+      updateData(values, selected, clientID);
     }
   };
 
@@ -68,7 +74,7 @@ const EducationPage = () => {
     Modal.confirm({
       title: "Do you want to delete?",
       onOk: async () => {
-        deleteData(id);
+        deleteData(id, clientID);
       },
     });
   };
@@ -143,7 +149,8 @@ const EducationPage = () => {
             >
               <Space.Compact style={{ width: "100%" }}>
                 <Search
-                  onChange={(e) => handleSearch(e)}
+                  value={search}
+                  onChange={(e) => handleSearch(e, pathname, navigate)}
                   placeholder="search..."
                   allowClear
                 />
@@ -168,7 +175,7 @@ const EducationPage = () => {
           total={total}
           pageSize={LIMIT}
           current={page}
-          onChange={(page) => setPage(page)}
+          onChange={(page) => setPage(page, pathname, navigate)}
         />
       ) : null}
       <Modal

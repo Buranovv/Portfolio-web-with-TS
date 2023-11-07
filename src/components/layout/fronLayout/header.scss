@@ -7,8 +7,18 @@
   z-index: 999;
   top: 0;
 
+
   .active {
-    color: #ffd050;
+    color: #fff;
+  }
+
+  .logo-box{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: #000;
+    font-size: 30px;
   }
 
   &__box {

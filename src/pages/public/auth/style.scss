@@ -9,7 +9,7 @@
     width: 50%;
     height: 100vh;
 
-    background: url("/forBg.svg") no-repeat;
+    background: url("/loginBg.svg") no-repeat;
     background-size: cover;
   }
   .form_block {
@@ -33,7 +33,7 @@
       gap: 16px;
 
       h2 {
-        color: #009ee2;
+        color: #889195;
         font-family: Sen;
         font-size: 74px;
         font-style: normal;
@@ -102,7 +102,7 @@
         width: 100%;
         padding: 16px 50px 16px 10px;
         border-radius: 9px;
-        border: 1px solid #009ee2;
+        border: 1px solid;
 
         color: #000;
         font-family: Sen;
@@ -115,7 +115,7 @@
         padding: 15px;
         border-radius: 5px;
         border: 1px solid rgba(255, 255, 255, 0.15);
-        background: #009ee2;
+        background: #889195;
         box-shadow: 0px 16px 32px 0px rgba(0, 158, 226, 0.1);
 
         color: #fff;
@@ -141,7 +141,7 @@
           height: 20px;
           cursor: pointer;
           path {
-            fill: #009ee2;
+            fill: #889195;
           }
         }
       }
@@ -154,7 +154,7 @@
         left: 10px;
         top: 16px;
 
-        color: #009ee2;
+        color: #889195;
         font-family: Sen;
         font-size: 16px;
 
@@ -174,7 +174,7 @@
       .firstNameInput:focus ~ .firstNameSpan,
       .lastNameInput:focus ~ .lastNameSpan,
       .confirmPasswordInput:focus ~ .confirmPasswordSpan {
-        color: #009ee2;
+        color: #889195;
         font-family: Sen;
         font-size: 12px;
 

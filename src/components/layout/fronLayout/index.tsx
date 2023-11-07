@@ -24,7 +24,16 @@ const Header = () => {
       <header className="header">
         <div className="container">
           <div className="header__box">
-            <NavLink to="/">Salom</NavLink>
+            <NavLink to="/">
+              <div className="logo-box">
+                <img
+                  style={{ width: 40, height: 30 }}
+                  src="/logo.png"
+                  alt="site logo"
+                />
+                <p>Portfolio</p>
+              </div>
+            </NavLink>
             <nav className="header__nav">
               <ul className="header__list">
                 <li className="header__item">

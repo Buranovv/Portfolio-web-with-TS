@@ -3,10 +3,16 @@
   overflow: auto;
 }
 .aside-logo {
-  padding: 20px;
+  height: 64px;
+  padding: 0 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
 
   color: black;
-  font-size: 20px;
+  font-size: 30px;
+
 }
 
 .layout-header {

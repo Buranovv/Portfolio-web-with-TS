@@ -1,3 +1,5 @@
+import { NavigateFunction } from "react-router-dom";
+
 import { FormInstance } from "antd";
 
 import { create } from "zustand";
@@ -20,15 +22,27 @@ const crud = <T>(url: string) => {
     isModalLoad: boolean;
     closeModal: () => void;
     showModal: (form: FormInstance<object>) => void;
-    getAllData: (search: string, page: number) => void;
-    addData: (values: object) => void;
+    getAllData: (search: string, page: number, clientID: string) => void;
+    addData: (values: object, clientID: string) => void;
     getSingleData: (id: string, form: FormInstance<object>) => void;
-    updateData: (values: object, id: string) => void;
+    updateData: (values: object, id: string, clientID: string) => void;
     uploadPhoto: (file: FormData) => void;
-    deleteData: (id: string) => void;
-    handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    setPage: (page: number) => void;
+    deleteData: (id: string, clientID: string) => void;
+    handleSearch: (
+      e: React.ChangeEvent<HTMLInputElement>,
+      pathname: string,
+      navigate: NavigateFunction
+    ) => void;
+    setPage: (
+      page: number,
+      pathname: string,
+      navigate: NavigateFunction
+    ) => void;
   }
+
+  const params = new URLSearchParams(window.location.search);
+  const page = params.get("page") || 1;
+  const search = params.get("search");
 
   return create<initialStateTypes>()((set, get) => {
     const setState = (newState: object) => {
@@ -43,10 +57,10 @@ const crud = <T>(url: string) => {
         _id: "",
         name: "",
       },
-      page: 1,
+      page: +page,
       total: 0,
       selected: null,
-      search: "",
+      search: search || "",
       isModalOpen: false,
       isModalLoad: false,
       closeModal: () => {
@@ -56,7 +70,7 @@ const crud = <T>(url: string) => {
         setState({ isModalOpen: true, selected: null, photo: null });
         form.resetFields();
       },
-      getAllData: async (search, page) => {
+      getAllData: async (search, page, clientID) => {
         try {
           const params = {
             search,
@@ -65,9 +79,12 @@ const crud = <T>(url: string) => {
           setState({ loading: true });
           const {
             data: { pagination, data },
-          } = await request.get<ApiData>(url, {
-            params,
-          });
+          } = await request.get<ApiData>(
+            `${url}?${clientID ? `user=${clientID}` : ""}`,
+            {
+              params,
+            }
+          );
           const newData = data.map((el: object, i: number) => ({
             ...el,
             key: i,
@@ -77,13 +94,13 @@ const crud = <T>(url: string) => {
           setState({ loading: false });
         }
       },
-      addData: async (values) => {
+      addData: async (values, clientID) => {
         try {
           setState({ isModalLoad: true });
           await request.post(url, values);
           const { page, search, getAllData } = get();
           setState({ isModalOpen: false });
-          getAllData(search, page);
+          getAllData(search, page, clientID);
         } finally {
           setState({ isModalLoad: false });
         }
@@ -102,15 +119,15 @@ const crud = <T>(url: string) => {
           newData = { ...data };
         }
         form.setFieldsValue(newData);
-        setState({ isModalOpen: true });
+        setState({ isModalOpen: true, photo: data.photo });
       },
-      updateData: async (values, id) => {
+      updateData: async (values, id, clientID) => {
         try {
           setState({ isModalLoad: true });
           await request.put(`${url}/${id}`, values);
           const { page, search, getAllData } = get();
           setState({ isModalOpen: false });
-          getAllData(search, page);
+          getAllData(search, page, clientID);
         } finally {
           setState({ isModalLoad: false });
         }
@@ -124,13 +141,30 @@ const crud = <T>(url: string) => {
           setState({ photoLoad: false });
         }
       },
-      deleteData: async (id) => {
+      deleteData: async (id, clientID) => {
         await request.delete(`${url}/${id}`);
         const { getAllData, search, page } = get();
-        getAllData(search, page);
+        getAllData(search, page, clientID);
       },
-      handleSearch: (e) => setState({ search: e.target.value, page: 1 }),
-      setPage: (page) => setState({ page }),
+      handleSearch: (e, pathname, navigate) => {
+        setState({ search: e.target.value, page: 1 });
+        const { page, search } = get();
+
+        const query = new URLSearchParams();
+        query.append("page", page.toString());
+        query.append("search", search);
+
+        navigate(`${pathname}?` + query);
+      },
+      setPage: (page, pathname, navigate) => {
+        setState({ page });
+
+        const query = new URLSearchParams();
+        query.append("page", page.toString());
+        query.append("search", get().search);
+
+        navigate(`${pathname}?` + query);
+      },
     };
   });
 };
