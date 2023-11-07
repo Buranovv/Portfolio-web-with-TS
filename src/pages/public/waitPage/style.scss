@@ -1,0 +1,24 @@
+.waitPage {
+  width: 100%;
+  height: 100vh;
+  padding-top: 70px;
+
+  background: url("https://miro.medium.com/v2/resize:fit:3200/1*fptjcqGntw4bxHkLPBTQAA.gif")
+    no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  display: flex;
+  align-items: start;
+  justify-content: center;
+
+  .waitLogout {
+    position: absolute;
+    top: 500px;
+
+    border: none;
+    padding: 10px 20px;
+
+    background: red;
+  }
+}

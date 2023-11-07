@@ -15,7 +15,10 @@ request.interceptors.response.use(
   (response) => response,
   (err) => {
     console.log(err);
-    message.error(err.response.data.message);
+
+    err.response
+      ? message.error(err.response.data.message)
+      : message.error(err.message);
 
     return Promise.reject(err);
   }

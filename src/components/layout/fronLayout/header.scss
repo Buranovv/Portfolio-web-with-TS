@@ -1,24 +1,22 @@
 .header {
   width: 100%;
   padding: 13px 0;
-  background-color: var(--lyt-bgclr);
 
   position: fixed;
   z-index: 999;
   top: 0;
 
-
-  .active {
-    color: #fff;
-  }
-
-  .logo-box{
+  .logo-box {
     display: flex;
     align-items: center;
     gap: 10px;
 
     color: #000;
     font-size: 30px;
+
+    p {
+      font-family: Sen;
+    }
   }
 
   &__box {
@@ -41,7 +39,7 @@
   &__link {
     padding: 16px 12px;
 
-    color: var(--lyt-txt-clr);
+    color: #000;
     font-family: InterR;
     font-size: 16px;
     line-height: 28px;
@@ -50,9 +48,9 @@
     padding: 16px 48px;
     border-radius: 5px;
 
-    background: var(--login-btn-bgclr);
+    background: #000;
 
-    color: rgb(var(--txt-clr));
+    color: #fff;
     font-family: Sen;
     font-size: 18px;
     line-height: 24px;
@@ -173,7 +171,7 @@
     &__loginPage {
       padding: 12px 38px;
 
-      background: var(--login-btn-bgclr);
+      background: black;
 
       font-size: 14px;
       line-height: 18px;

@@ -71,7 +71,7 @@ const useAuth = create<Auth>()((set, get) => {
     },
     signUp: async (values, navigate) => {
       try {
-        setState({ loading: false });
+        setState({ loading: true });
         const {
           data: { token, user },
         } = await request.post("auth/register", values);

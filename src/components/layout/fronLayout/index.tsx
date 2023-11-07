@@ -25,7 +25,7 @@ const Header = () => {
         <div className="container">
           <div className="header__box">
             <NavLink to="/">
-              <div className="logo-box">
+              <div draggable className="logo-box">
                 <img
                   style={{ width: 40, height: 30 }}
                   src="/logo.png"
@@ -40,18 +40,6 @@ const Header = () => {
                   <NavLink className="header__link" to="/">
                     Home
                   </NavLink>
-                </li>
-                <li className="header__item">
-                  {isAuth ? (
-                    <Fragment>
-                      <NavLink className="header__link" to="/skillsPage">
-                        Skills
-                      </NavLink>
-                      <NavLink className="header__link" to="/educationPage">
-                        Education
-                      </NavLink>
-                    </Fragment>
-                  ) : null}
                 </li>
               </ul>
               <div>
@@ -75,9 +63,9 @@ const Header = () => {
                 viewBox="0 0 20 17"
                 fill="none"
               >
-                <rect width="20" height="3" fill="white" />
-                <rect y="7" width="20" height="3" fill="white" />
-                <rect y="14" width="20" height="3" fill="white" />
+                <rect width="20" height="3" fill="black" />
+                <rect y="7" width="20" height="3" fill="black" />
+                <rect y="14" width="20" height="3" fill="black" />
               </svg>
             </div>
           </div>
@@ -101,31 +89,13 @@ const Header = () => {
                 fillRule="evenodd"
                 clipRule="evenodd"
                 d="M8.99989 6.37869L2.98948 0.368286L0.868164 2.48961L6.87857 8.50001L0.868164 14.5104L2.98948 16.6317L8.99989 10.6213L15.0103 16.6317L17.1316 14.5104L11.1212 8.50001L17.1316 2.48961L15.0103 0.368286L8.99989 6.37869Z"
-                fill="white"
+                fill="black"
               />
             </svg>
           </div>
           <NavLink className="togle__link" to="/" onClick={togleClose}>
             Home
           </NavLink>
-          {isAuth ? (
-            <Fragment>
-              <NavLink
-                className="togle__link"
-                to="/skillsPage"
-                onClick={togleClose}
-              >
-                Skills
-              </NavLink>
-              <NavLink
-                className="togle__link"
-                to="/educationPage"
-                onClick={togleClose}
-              >
-                Education
-              </NavLink>
-            </Fragment>
-          ) : null}
           {isAuth ? (
             <NavLink
               className="togle__link"

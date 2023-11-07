@@ -26,9 +26,14 @@ function App() {
       <Routes>
         <Route element={<FrontLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/account" element={<AccountPage />} />
         </Route>
-        <Route path="auth/login" element={<LoginPage />} />
-        <Route path="auth/register" element={<RegisterPage />} />
+        {!isAuth ? (
+          <Fragment>
+            <Route path="auth/login" element={<LoginPage />} />
+            <Route path="auth/register" element={<RegisterPage />} />
+          </Fragment>
+        ) : null}
         <Route path="*" element={<NotFoundPage />} />
         <Route
           path="/waitPage"
